@@ -1,0 +1,15 @@
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\config\SecurityConfig.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\config\WebConfig.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\controller\AdminController.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\controller\HomeController.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\controller\InformationController.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\listener\SessionSavingListener.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\model\Category.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\model\Information.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\model\User.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\repository\CategoryRepository.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\repository\InformationRepository.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\repository\UserRepository.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\service\CustomUserDetailsService.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\session\SessionDataStore.java
+C:\Users\aleja\Desktop\UNI\Web Applications Development in Java\StoreEverything\src\main\java\com\example\storeeverything\StoreEverythingApplication.java

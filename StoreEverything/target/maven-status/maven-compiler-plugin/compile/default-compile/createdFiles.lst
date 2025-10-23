@@ -1,0 +1,15 @@
+com\example\storeeverything\model\User.class
+com\example\storeeverything\listener\SessionSavingListener.class
+com\example\storeeverything\repository\CategoryRepository.class
+com\example\storeeverything\StoreEverythingApplication.class
+com\example\storeeverything\repository\UserRepository.class
+com\example\storeeverything\controller\AdminController.class
+com\example\storeeverything\controller\HomeController.class
+com\example\storeeverything\model\Information.class
+com\example\storeeverything\session\SessionDataStore.class
+com\example\storeeverything\model\Category.class
+com\example\storeeverything\service\CustomUserDetailsService.class
+com\example\storeeverything\config\SecurityConfig.class
+com\example\storeeverything\repository\InformationRepository.class
+com\example\storeeverything\controller\InformationController.class
+com\example\storeeverything\config\WebConfig.class

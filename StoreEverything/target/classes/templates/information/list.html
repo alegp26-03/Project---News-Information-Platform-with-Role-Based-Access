@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<title>Information Items</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+	<style>
+		body { padding: 20px; }
+		.container { max-width: 900px; margin-top: 20px; }
+		.filter-form { background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 0.25rem; padding: 15px; margin-bottom: 20px; }
+		.info-card { margin-bottom: 15px; border: 1px solid #dee2e6; border-radius: 0.25rem; }
+		.card-header { background-color: #f8f9fa; padding: 0.75rem 1.25rem; border-bottom: 1px solid #dee2e6; }
+		.card-body { padding: 1.25rem; }
+		.card-footer { background-color: #f8f9fa; padding: 0.75rem 1.25rem; border-top: 1px solid #dee2e6; font-size: 0.875em; color: #6c757d; }
+		.link-text { word-wrap: break-word; }
+		/* Removed previous specific filter-sort-options styles as they are replaced by filter-form */
+	</style>
+</head>
+<body>
+<div class="container">
+	<h1 class="mb-4">Your Information Items</h1>
+	
+	<div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+		<span th:if="${param.success[0] == 'added_to_session'}">Information added successfully!</span>
+		<span th:if="${param.success[0] == 'updated_in_session'}">Information updated successfully!</span>
+		<span th:if="${param.success[0] == 'marked_for_deletion'}">Information deleted successfully!</span>
+		<span th:if="${param.success[0] == 'sharing_updated_in_session'}">Information sharing updated successfully!</span>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	
+	<div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+		<span th:text="${success}"></span>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	
+	<div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+		<span th:if="${param.error[0] == 'not_authorized'}">You are not authorized to perform this action!</span>
+		<span th:if="${param.error[0] == 'notfound'}">Information not found.</span>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	
+	<div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+		<span th:text="${error}"></span>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	
+	<div th:if="${dateError}" class="alert alert-warning alert-dismissible fade show" role="alert">
+		<span th:text="${dateError}"></span>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	
+	<div th:if="${categoryError}" class="alert alert-warning alert-dismissible fade show" role="alert">
+		<span th:text="${categoryError}"></span>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	
+	<div class="filter-form">
+		<h5 class="mb-3">Filter, Sort & Search</h5>
+		<form th:action="@{/information/list}" method="get" th:object="${null}">
+			<div class="row g-3">
+				<div class="col-md-4">
+					<label for="sortBy" class="form-label">Sort By:</label>
+					<select class="form-select" id="sortBy" name="sortBy">
+						<option value="" th:selected="${selectedSortBy == null or selectedSortBy == ''}">None</option>
+						<option value="dateAdded" th:selected="${selectedSortBy == 'dateAdded'}">Date Added</option>
+						<option value="categoryName" th:selected="${selectedSortBy == 'categoryName'}">Category Name</option>
+					</select>
+				</div>
+				<div class="col-md-4">
+					<label for="sortDirection" class="form-label">Sort Direction:</label>
+					<select class="form-select" id="sortDirection" name="sortDirection">
+						<option value="desc" th:selected="${selectedSortDirection == 'desc'}">Descending</option>
+						<option value="asc" th:selected="${selectedSortDirection == 'asc'}">Ascending</option>
+					</select>
+				</div>
+				<div class="col-md-4">
+					<label for="categoryId" class="form-label">Category:</label>
+					<select class="form-select" id="categoryId" name="categoryId">
+						<option value="0" th:selected="${selectedCategoryId == null or selectedCategoryId == 0}">All Categories</option>
+						<option th:each="cat : ${categories}"
+						        th:value="${cat.id}"
+						        th:text="${cat.name}"
+						        th:selected="${selectedCategoryId != null and selectedCategoryId == cat.id}">
+						</option>
+					</select>
+				</div>
+				<div class="col-md-4">
+					<label for="startDate" class="form-label">Start Date:</label>
+					<input type="date" class="form-control" id="startDate" name="startDate" th:value="${selectedStartDate}">
+				</div>
+				<div class="col-md-4">
+					<label for="endDate" class="form-label">End Date:</label>
+					<input type="date" class="form-control" id="endDate" name="endDate" th:value="${selectedEndDate}">
+				</div>
+				<div class="col-md-4">
+					<label for="search" class="form-label">Search (Title/Content):</label>
+					<input type="text" class="form-control" id="search" name="search" th:value="${selectedSearchKeyword}" placeholder="Enter keyword...">
+				</div>
+			</div>
+			<div class="mt-3">
+				<button type="submit" class="btn btn-primary">Apply Filters</button>
+				<a th:href="@{/information/list}" class="btn btn-outline-secondary ms-2">Clear Filters</a>
+			</div>
+		</form>
+	</div>
+	
+	<div th:if="${dateError}" class="alert alert-danger" role="alert">
+		<span th:text="${dateError}"></span>
+	</div>
+	<div th:if="${categoryError}" class="alert alert-warning" role="alert">
+		<span th:text="${categoryError}"></span>
+	</div>
+	
+	<div th:if="${informationItems.isEmpty()}" class="alert alert-info" role="alert">
+		No information items found matching your criteria.
+	</div>
+	
+	<div th:unless="${informationItems.isEmpty()}" class="mb-4">
+		<div th:each="info : ${informationItems}" class="info-card">
+			<div class="card-header">
+				<h5 class="mb-0" th:text="${info.title}">Information Title</h5>
+			</div>
+			<div class="card-body">
+				<p class="card-text" th:text="${info.content}"></p>
+				<div th:if="${info.link}">
+					<strong>Link:</strong> <a th:href="${info.link}" th:text="${info.link}" target="_blank" class="link-text"></a>
+				</div>
+			</div>
+			<div class="card-footer d-flex justify-content-between align-items-center">
+               <span>
+                   <strong>Category:</strong> <span th:text="${info.category != null ? info.category.name : 'N/A'}">Category Name</span>
+                   | <strong>Added:</strong> <span th:text="${#temporals.format(info.dateAdded, 'dd-MM-yyyy')}"></span>
+               </span>
+				<div sec:authorize="hasAnyRole('FULL_USER', 'ADMIN')">
+					<a th:href="@{/information/edit/{id}(id=${info.id})}" class="btn btn-warning btn-sm">Edit</a>
+					<a th:href="@{/information/share/{id}(id=${info.id})}" class="btn btn-sm btn-secondary me-2">Share</a>
+					<form th:action="@{/information/delete/{id}(id=${info.id})}" method="post" style="display:inline;">
+						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+						<button type="submit" class="btn btn-sm btn-danger"
+						        onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<a sec:authorize="hasAnyRole('FULL_USER', 'ADMIN')" href="/information/add" class="btn btn-primary me-2">Add New Information</a>
+	<a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
